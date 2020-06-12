@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "906257525682",
+    "firebase_url": "https://bookmyevent-6a705.firebaseio.com",
+    "project_id": "bookmyevent-6a705",
+    "storage_bucket": "bookmyevent-6a705.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906257525682:android:fca7e7e5312523d11fd2ab",
+        "android_client_info": {
+          "package_name": "evento.com.evento"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906257525682-larjjvh0ahc8nmpilub74p6n045ae0i4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "evento.com.evento",
+            "certificate_hash": "11af00e701124b50d271cd76c0b62378cf6ca991"
+          }
+        },
+        {
+          "client_id": "906257525682-b0263aos6fdkltour3j2782cg33t7hfj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGTyJyjCSEjf_XKschJH0Yd0fM3Rby3mU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906257525682-b0263aos6fdkltour3j2782cg33t7hfj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
