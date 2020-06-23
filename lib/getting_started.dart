@@ -1,5 +1,7 @@
 import 'dart:async';
-
+import 'dart:convert';
+import 'package:evento/ConstantUrls.dart';
+import 'package:http/http.dart' as http;
 import 'package:evento/join_now.dart';
 import 'package:evento/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -637,7 +639,18 @@ class _GettingStartedState extends State<GettingStarted> {
                                               ),
                                             ),
                                             onGetUserProfile:
-                                                (LinkedInUserModel model) {
+                                                (LinkedInUserModel model)
+                                            {
+                                              registerUser(email: model
+                                                  .email
+                                                  .elements[0]
+                                                  .handleDeep
+                                                  .emailAddress, fname: model.firstName.localized
+                                                  .label, lname: model
+                                                  .lastName
+                                                  .localized
+                                                  .label);
+
                                               print("ACCESS TOKEN : " +
                                                   model.token.accessToken);
 
@@ -647,6 +660,7 @@ class _GettingStartedState extends State<GettingStarted> {
                                               print("Email : " +
                                                   model.email.elements[0]
                                                       .handleDeep.emailAddress);
+
 
                                               Navigator.pop(context);
                                               Navigator.pop(context);
@@ -671,6 +685,8 @@ class _GettingStartedState extends State<GettingStarted> {
                                                       photoUrl: model
                                                           .profilePicture
                                                           .displayImage);
+
+
                                               Navigator.push(
                                                   context,
                                                   new MaterialPageRoute(
@@ -745,6 +761,21 @@ class _GettingStartedState extends State<GettingStarted> {
         ),
       ),
     );
+  }
+
+  registerUser({fname, lname, email}) async
+  {
+    var response = await http.post(ConstantUrls.LinkedInJoinNowUrl, body:
+    {
+      "verify" : "TheCandidoVirtualEvent2020",
+      "txtEmail" : email.trim(),
+      "txtFirstName" : fname.trim(),
+      "txtLastName" : lname.trim(),
+    });
+
+    var message = jsonDecode(response.body);
+
+    print("MESSAGE : " + message["msg"].toString());
   }
 }
 
