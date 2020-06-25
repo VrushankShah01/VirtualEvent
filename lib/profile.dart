@@ -6,9 +6,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class ProfileScreen extends StatefulWidget
 {
-  final UserDetails detailsUser;
+  final String name, email;
 
-  ProfileScreen(this.detailsUser);
+  ProfileScreen({this.name, this.email});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -16,8 +16,6 @@ class ProfileScreen extends StatefulWidget
 
 class _ProfileScreenState extends State<ProfileScreen>
 {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-
   int _currentIndex = 0;
   PageController _pageController;
 
@@ -89,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           children: <Widget>
           [
             Container(color: Colors.amber, child: Text(
-              widget.detailsUser.userName,
+              widget.name,
               style: TextStyle(
                 color: Colors.black,
                 letterSpacing: 1.0,

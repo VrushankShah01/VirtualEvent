@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:evento/ConstantUrls.dart';
+import 'package:evento/select_interests.dart';
 import 'package:http/http.dart' as http;
 import 'package:evento/join_now.dart';
-import 'package:evento/profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linkedin_login/linkedin_login.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -43,7 +41,7 @@ class _GettingStartedState extends State<GettingStarted> {
 
   PageController pageController = PageController(initialPage: 0);
 
-  UserObject user;
+//  UserObject user;
   bool logoutUser = false;
 
   @override
@@ -236,39 +234,41 @@ class _GettingStartedState extends State<GettingStarted> {
 ////    }
 //  }
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = new GoogleSignIn();
+//  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+//  final GoogleSignIn _googleSignIn = new GoogleSignIn();
 
-  Future _signIn(BuildContext context) async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-        idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-
-//    FirebaseUser userDetails = (await _firebaseAuth.signInWithCredential(credential)).user;
-//    ProviderDetails providerInfo = new ProviderDetails(userDetails.providerId);
-
-//    List<ProviderDetails> providerData = new List<ProviderDetails>();
-//    providerData.add(providerInfo);
-
-    UserDetails details = new UserDetails(
-        photoUrl: googleUser.photoUrl,
-        userEmail: googleUser.email,
-        userName: googleUser.displayName);
-
-    Navigator.of(context).pop();
-
-    Navigator.push(context,
-        new MaterialPageRoute(builder: (context) => ProfileScreen(details)));
-
-//    return googleUser;
-  }
+//  Future _signIn(BuildContext context) async {
+//    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+//    final GoogleSignInAuthentication googleAuth =
+//        await googleUser.authentication;
+//
+//    final AuthCredential credential = GoogleAuthProvider.getCredential(
+//        idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+//
+////    FirebaseUser userDetails = (await _firebaseAuth.signInWithCredential(credential)).user;
+////    ProviderDetails providerInfo = new ProviderDetails(userDetails.providerId);
+//
+////    List<ProviderDetails> providerData = new List<ProviderDetails>();
+////    providerData.add(providerInfo);
+//
+//    UserDetails details = new UserDetails(
+//        photoUrl: googleUser.photoUrl,
+//        userEmail: googleUser.email,
+//        userName: googleUser.displayName);
+//
+//    Navigator.of(context).pop();
+//
+//    Navigator.push(context,
+//        new MaterialPageRoute(builder: (context) => ProfileScreen(details)));
+//
+////    return googleUser;
+//  }
 
   final String redirectUrl = 'http://www.thecandido.in/virtual_event';
   final String clientId = '864rvsopq5jlvs';
   final String clientSecret = 'vANp2b2xTeY43sVI';
+
+  static String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -641,16 +641,6 @@ class _GettingStartedState extends State<GettingStarted> {
                                             onGetUserProfile:
                                                 (LinkedInUserModel model)
                                             {
-                                              registerUser(email: model
-                                                  .email
-                                                  .elements[0]
-                                                  .handleDeep
-                                                  .emailAddress, fname: model.firstName.localized
-                                                  .label, lname: model
-                                                  .lastName
-                                                  .localized
-                                                  .label);
-
                                               print("ACCESS TOKEN : " +
                                                   model.token.accessToken);
 
@@ -661,38 +651,37 @@ class _GettingStartedState extends State<GettingStarted> {
                                                   model.email.elements[0]
                                                       .handleDeep.emailAddress);
 
+                                              registerUser(email: model
+                                                  .email
+                                                  .elements[0]
+                                                  .handleDeep
+                                                  .emailAddress, fname: model.firstName.localized
+                                                  .label, lname: model
+                                                  .lastName
+                                                  .localized
+                                                  .label);
+//                                              UserDetails details =
+//                                                  new UserDetails(
+//                                                      userName:
+//                                                          model
+//                                                                  .firstName
+//                                                                  .localized
+//                                                                  .label +
+//                                                              " " +
+//                                                              model
+//                                                                  .lastName
+//                                                                  .localized
+//                                                                  .label,
+//                                                      userEmail:
+//                                                          model
+//                                                              .email
+//                                                              .elements[0]
+//                                                              .handleDeep
+//                                                              .emailAddress,
+//                                                      photoUrl: model
+//                                                          .profilePicture
+//                                                          .displayImage);
 
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
-                                              UserDetails details =
-                                                  new UserDetails(
-                                                      userName:
-                                                          model
-                                                                  .firstName
-                                                                  .localized
-                                                                  .label +
-                                                              " " +
-                                                              model
-                                                                  .lastName
-                                                                  .localized
-                                                                  .label,
-                                                      userEmail:
-                                                          model
-                                                              .email
-                                                              .elements[0]
-                                                              .handleDeep
-                                                              .emailAddress,
-                                                      photoUrl: model
-                                                          .profilePicture
-                                                          .displayImage);
-
-
-                                              Navigator.push(
-                                                  context,
-                                                  new MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ProfileScreen(
-                                                              details)));
                                             },
                                           )));
                             },
@@ -776,36 +765,52 @@ class _GettingStartedState extends State<GettingStarted> {
     var message = jsonDecode(response.body);
 
     print("MESSAGE : " + message["msg"].toString());
+
+    print("ID : " + message["id"].toString());
+
+    Navigator.pop(context);
+    Navigator.pop(context);
+
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) =>
+                SelectInterests(name: fname +
+                    " " +
+                    lname,
+                  email: email,
+                id: message["id"].toString(),
+                )));
   }
 }
 
-class UserDetails {
+//class UserDetails {
+////  final String providerDetails;
+//  final String userName;
+//  final String photoUrl;
+//  final String userEmail;
+////  final List<ProviderDetails> providerData;
+//
+//  UserDetails({
+//    this.userEmail,
+//    this.userName,
+//    this.photoUrl,
+//  });
+//}
+//
+//class ProviderDetails {
+//  ProviderDetails(this.providerDetails);
 //  final String providerDetails;
-  final String userName;
-  final String photoUrl;
-  final String userEmail;
-//  final List<ProviderDetails> providerData;
-
-  UserDetails({
-    this.userEmail,
-    this.userName,
-    this.photoUrl,
-  });
-}
-
-class ProviderDetails {
-  ProviderDetails(this.providerDetails);
-  final String providerDetails;
-}
-
-class AuthCodeObject {
-  String code, state;
-
-  AuthCodeObject({this.code, this.state});
-}
-
-class UserObject {
-  String firstName, lastName, email;
-
-  UserObject({this.firstName, this.lastName, this.email});
-}
+//}
+//
+//class AuthCodeObject {
+//  String code, state;
+//
+//  AuthCodeObject({this.code, this.state});
+//}
+//
+//class UserObject {
+//  String firstName, lastName, email;
+//
+//  UserObject({this.firstName, this.lastName, this.email});
+//}
