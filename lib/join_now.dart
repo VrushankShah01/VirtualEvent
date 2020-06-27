@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:evento/ConstantUrls.dart';
 import 'package:evento/select_interests.dart';
+import 'package:evento/sign_in.dart';
 import 'package:evento/widgets/loaders/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -576,7 +577,13 @@ class _JoinNowState extends State<JoinNow> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: ()
+                    {
+                      Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => SignIn()));
+                    },
                     splashColor: Colors.transparent,
                     child: Text(
                       "Already have an account? Sign in",

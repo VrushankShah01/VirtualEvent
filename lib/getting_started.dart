@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:evento/ConstantUrls.dart';
 import 'package:evento/select_interests.dart';
+import 'package:evento/sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:evento/join_now.dart';
 import 'package:flutter/material.dart';
@@ -724,7 +725,14 @@ class _GettingStartedState extends State<GettingStarted> {
 
                         // Sign in Button
                         FlatButton(
-                          onPressed: () {},
+                          onPressed: ()
+                          {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                        SignIn()));
+                          },
                           child: Text(
                             "Sign in",
                             style: TextStyle(

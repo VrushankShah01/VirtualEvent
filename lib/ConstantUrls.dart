@@ -9,6 +9,11 @@ class ConstantUrls {
       // JOIN NOW WITH LINKEDIN
       static const String LinkedInJoinNowUrl = ROOT + "/Registration/linkedin_join_now.php";
 
+  // LOGIN URLS
+
+     // LOGIN
+     static const String LoginUrl = ROOT + "/Login/sign_in.php";
+
   // INTERESTS URLS
 
      // INTEREST SELECTED

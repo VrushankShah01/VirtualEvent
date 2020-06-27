@@ -21,6 +21,23 @@ List<String> interestList = List<String>();
 
 class _SelectInterestsState extends State<SelectInterests>
 {
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    interestList.clear();
+  }
+
+  @override
+  void dispose()
+  {
+    super.dispose();
+
+    interestList.clear();
+  }
+
   @override
   Widget build(BuildContext context)
   {
