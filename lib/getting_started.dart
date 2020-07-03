@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:evento/ConstantUrls.dart';
+import 'package:evento/home.dart';
 import 'package:evento/select_interests.dart';
 import 'package:evento/sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +9,14 @@ import 'package:evento/join_now.dart';
 import 'package:flutter/material.dart';
 import 'package:linkedin_login/linkedin_login.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+/*
+*   This is the First Page of the App and contains
+*   - Carousel/Walkthrough
+*   - Join Now Button - Redirects to [join_now.dart]
+*   - Sign in With Linkedin Button - Redirects to [WebView of the widget]
+*   - Sign in - Redirects to [sign_in.dart]
+* */
 
 class GettingStarted extends StatefulWidget {
   @override
@@ -17,8 +26,6 @@ class GettingStarted extends StatefulWidget {
 class _GettingStartedState extends State<GettingStarted> {
   List<String> intro = ["Candido", "Profile", "Connect", "Match"];
 
-  var yellowColor = Color.fromRGBO(251, 204, 111, 1);
-  var blueColor = Color.fromRGBO(58, 88, 146, 1);
   var whiteColor = Colors.white;
 
   Timer _timer;
@@ -77,199 +84,9 @@ class _GettingStartedState extends State<GettingStarted> {
     super.dispose();
   }
 
-  // On Page Changed Event - For the Texts below the Menu Items
-//  _onPageViewChange(int page) {
-////    print("View Change" + page.toString());
-//
-////    // About Us
-////    if(page == 5)
-////    {
-////      setState(()
-////      {
-////        pageTitle = "What is RCHR? Tap on the image "
-////            "above to know about us.";
-////
-////        _child = Text(
-////          '$pageTitle',
-////          style: TextStyle(
-////            color: Colors.white,
-////            fontWeight: FontWeight.bold,
-////            fontFamily: "Gotham",
-////            fontSize: 16.0,
-////            letterSpacing: 0.8,
-////          ),
-////          key: UniqueKey(),
-////        );
-////      });
-////    }
-////
-////    // Social Initiative
-////    else if(page == 4)
-////    {
-////      setState(()
-////      {
-////        pageTitle = "Aashayein - Adopt a Village.\nAims at holistic "
-////            "development of rural villages in Maharashtra. Know more about "
-////            "our initiative by tapping on the image above.";
-////
-////        _child = Text(
-////          '$pageTitle',
-////          style: TextStyle(
-////            color: Colors.white,
-////            fontWeight: FontWeight.bold,
-////            fontFamily: "Gotham",
-////            fontSize: 16.0,
-////            letterSpacing: 0.8,
-////          ),
-////          key: UniqueKey(),
-////        );
-////      });
-////    }
-////
-////    // Gallery
-////    else if(page == 3)
-////    {
-////      setState(()
-////      {
-////        pageTitle = "View pictures of our projects, social work, etc. by"
-////            " tapping on the image above.";
-////
-////        _child = Text(
-////          '$pageTitle',
-////          style: TextStyle(
-////            color: Colors.white,
-////            fontWeight: FontWeight.bold,
-////            fontFamily: "Gotham",
-////            fontSize: 16.0,
-////            letterSpacing: 0.8,
-////          ),
-////          key: UniqueKey(),
-////        );
-////      });
-////    }
-////
-////    // Team
-////    else if(page == 2)
-////    {
-////      setState(()
-////      {
-////        pageTitle = "Know more about the team behind RCHR by tapping on "
-////            "the above image.";
-////
-////        _child = Text(
-////          '$pageTitle',
-////          style: TextStyle(
-////            color: Colors.white,
-////            fontWeight: FontWeight.bold,
-////            fontFamily: "Gotham",
-////            fontSize: 16.0,
-////            letterSpacing: 0.8,
-////          ),
-////          key: UniqueKey(),
-////        );
-////      });
-////    }
-////
-////    // Contact Us
-////    else if(page == 1)
-////    {
-////      setState(()
-////      {
-////        pageTitle = "Get in touch with us by tapping on the above image.";
-////
-////        _child = Text(
-////          '$pageTitle',
-////          style: TextStyle(
-////            color: Colors.white,
-////            fontWeight: FontWeight.bold,
-////            fontFamily: "Gotham",
-////            fontSize: 16.0,
-////            letterSpacing: 0.8,
-////          ),
-////          key: UniqueKey(),
-////        );
-////      });
-////    }
-////
-////    // Login
-////    else if(page == 0)
-////    {
-////      if(isLoggedIn == true)
-////      {
-////        setState(()
-////        {
-////          pageTitle = "Go to the Dashboard";
-////
-////          _child = Text(
-////            '$pageTitle',
-////            style: TextStyle(
-////              color: Colors.white,
-////              fontWeight: FontWeight.bold,
-////              fontFamily: "Gotham",
-////              fontSize: 16.0,
-////              letterSpacing: 0.8,
-////            ),
-////            key: UniqueKey(),
-////          );
-////        });
-////      }
-////      else
-////      {
-////        setState(()
-////        {
-////          pageTitle = "RCHRites login by tapping on the above image.";
-////
-////          _child = Text(
-////            '$pageTitle',
-////            style: TextStyle(
-////              color: Colors.white,
-////              fontWeight: FontWeight.bold,
-////              fontFamily: "Gotham",
-////              fontSize: 16.0,
-////              letterSpacing: 0.8,
-////            ),
-////            key: UniqueKey(),
-////          );
-////        });
-////      }
-////    }
-//  }
-
-//  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-//  final GoogleSignIn _googleSignIn = new GoogleSignIn();
-
-//  Future _signIn(BuildContext context) async {
-//    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-//    final GoogleSignInAuthentication googleAuth =
-//        await googleUser.authentication;
-//
-//    final AuthCredential credential = GoogleAuthProvider.getCredential(
-//        idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-//
-////    FirebaseUser userDetails = (await _firebaseAuth.signInWithCredential(credential)).user;
-////    ProviderDetails providerInfo = new ProviderDetails(userDetails.providerId);
-//
-////    List<ProviderDetails> providerData = new List<ProviderDetails>();
-////    providerData.add(providerInfo);
-//
-//    UserDetails details = new UserDetails(
-//        photoUrl: googleUser.photoUrl,
-//        userEmail: googleUser.email,
-//        userName: googleUser.displayName);
-//
-//    Navigator.of(context).pop();
-//
-//    Navigator.push(context,
-//        new MaterialPageRoute(builder: (context) => ProfileScreen(details)));
-//
-////    return googleUser;
-//  }
-
   final String redirectUrl = 'http://www.thecandido.in/virtual_event';
   final String clientId = '864rvsopq5jlvs';
   final String clientSecret = 'vANp2b2xTeY43sVI';
-
-  static String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -277,8 +94,8 @@ class _GettingStartedState extends State<GettingStarted> {
       backgroundColor: currentPage == 0
           ? Color.fromRGBO(250, 250, 250, 1)
           : currentPage == 1
-              ? yellowColor
-              : currentPage == 2 ? Color.fromRGBO(58, 88, 146, 1) : yellowColor,
+              ? ConstantUrls.yellowColor
+              : currentPage == 2 ? Color.fromRGBO(58, 88, 146, 1) : ConstantUrls.yellowColor,
       body: SafeArea(
         child: Container(
           child: Column(
@@ -427,7 +244,7 @@ class _GettingStartedState extends State<GettingStarted> {
                           );
                         else if (index == 2)
                           return Container(
-                            color: blueColor,
+                            color: ConstantUrls.blueColor,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -451,7 +268,7 @@ class _GettingStartedState extends State<GettingStarted> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(20.0),
                                     child: Container(
-                                      color: blueColor,
+                                      color: ConstantUrls.blueColor,
                                       width: MediaQuery.of(context).size.width,
                                       height:
                                           MediaQuery.of(context).size.height,
@@ -467,7 +284,7 @@ class _GettingStartedState extends State<GettingStarted> {
                           );
                         else if (index == 3)
                           return Container(
-                            color: yellowColor,
+                            color: ConstantUrls.yellowColor,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -480,7 +297,7 @@ class _GettingStartedState extends State<GettingStarted> {
                                     style: TextStyle(
                                       fontFamily: "Helv",
                                       fontSize: 30,
-                                      color: blueColor,
+                                      color: ConstantUrls.blueColor,
                                     ),
                                   ),
                                 ),
@@ -498,7 +315,7 @@ class _GettingStartedState extends State<GettingStarted> {
                                         "assets/match.png",
                                         fit: BoxFit.cover,
                                       ),
-                                      color: yellowColor,
+                                      color: ConstantUrls.yellowColor,
                                     ),
                                   ),
                                 ),
@@ -561,7 +378,7 @@ class _GettingStartedState extends State<GettingStarted> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
-                          color: currentPage == 2 ? yellowColor : blueColor,
+                          color: currentPage == 2 ? ConstantUrls.yellowColor : ConstantUrls.blueColor,
                           padding: EdgeInsets.all(10),
                           textColor: Colors.white,
                         ),
@@ -688,8 +505,8 @@ class _GettingStartedState extends State<GettingStarted> {
                             },
                             padding: EdgeInsets.all(10.0),
                             color: currentPage == 3
-                                ? blueColor
-                                : currentPage == 1 ? blueColor : yellowColor,
+                                ? ConstantUrls.blueColor
+                                : currentPage == 1 ? ConstantUrls.blueColor : ConstantUrls.yellowColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50)),
                             child: Row(
@@ -746,7 +563,7 @@ class _GettingStartedState extends State<GettingStarted> {
                             borderRadius: BorderRadius.circular(50),
                           ),
                           padding: EdgeInsets.all(10),
-                          textColor: currentPage == 2 ? yellowColor : blueColor,
+                          textColor: currentPage == 2 ? ConstantUrls.yellowColor : ConstantUrls.blueColor,
                         ),
                       ],
                     ),
@@ -776,19 +593,46 @@ class _GettingStartedState extends State<GettingStarted> {
 
     print("ID : " + message["id"].toString());
 
-    Navigator.pop(context);
+//    Navigator.pop(context);
     Navigator.pop(context);
 
-    Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) =>
-                SelectInterests(name: fname +
-                    " " +
-                    lname,
-                  email: email,
-                id: message["id"].toString(),
-                )));
+    if(message["msg"].toString() == "yes")
+    {
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) =>
+                  Home(id: message["id"].toString(),
+                  )));
+    }
+
+    else if(message["msg"].toString() == "success")
+    {
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) =>
+                  SelectInterests(name: fname +
+                      " " +
+                      lname,
+                    email: email,
+                    id: message["id"].toString(),
+                  )));
+    }
+
+    else
+    {
+      showDialog(
+        context: context,
+        builder: (_)
+        {
+          return SuccessPopup(
+            title: "Error !",
+            message: "Something went wrong while signing in with Linkedin. Please try again !",
+          );
+        }
+      );
+    }
   }
 }
 

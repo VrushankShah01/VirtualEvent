@@ -1,12 +1,20 @@
 import 'dart:convert';
 
 import 'package:evento/ConstantUrls.dart';
+import 'package:evento/home.dart';
 import 'package:evento/join_now.dart';
-import 'package:evento/profile.dart';
 import 'package:evento/widgets/loaders/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
 import 'package:http/http.dart' as http;
+
+/*
+*   This is the sign in page which takes
+*   - email of the user
+*   - password
+*
+*   After authentication redirects the user to the [home.dart]
+* */
 
 class SignIn extends StatefulWidget
 {
@@ -313,7 +321,7 @@ class _SignInState extends State<SignIn>
       Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => ProfileScreen(email: _emailController.text.trim(), name: message["name"].toString(),)));
+              builder: (context) => Home(id: message["id"].toString(),)));
     }
     else
     {

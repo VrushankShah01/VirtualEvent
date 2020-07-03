@@ -4,11 +4,15 @@ import 'package:evento/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+/*
+*   This is the profile page of the user which has options to
+*   - Update Profile
+*   - Change Password
+*   - Update Categories
+* */
+
 class ProfileScreen extends StatefulWidget
 {
-  final String name, email;
-
-  ProfileScreen({this.name, this.email});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -39,41 +43,6 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context)
   {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.location_on,
-            color: Colors.lightBlueAccent,
-            size: 40,
-          ),
-        ),
-        actions: <Widget>
-        [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.search,
-              color: Colors.lightBlueAccent,
-              size: 40,
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 22,
-              backgroundColor: Colors.lightBlueAccent,
-              child: Icon(
-                Icons.person,
-                color: Colors.white,
-                size: 40,
-              ),
-            ),
-          )
-        ],
-      ),
       body: SafeArea(
         child: PageView(
           controller: _pageController,
@@ -87,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           children: <Widget>
           [
             Container(color: Colors.amber, child: Text(
-              widget.name,
+              "abc",
               style: TextStyle(
                 color: Colors.black,
                 letterSpacing: 1.0,

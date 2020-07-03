@@ -34,6 +34,9 @@ dependencies:
   bottom_navy_bar: ^5.4.0
   validators: ^2.0.0+1
   flutter_spinkit: ^4.1.2
+  extended_image: ^0.9.0
+  convex_bottom_bar: ^2.2.3
+  shimmer: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +75,10 @@ flutter:
     - family: Helv
       fonts:
         - asset: fonts/helv.ttf
+
+    - family: ShakeHand
+      fonts:
+        - asset: fonts/ShakeHand.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

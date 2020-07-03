@@ -1,11 +1,16 @@
 import 'dart:convert';
 
 import 'package:evento/ConstantUrls.dart';
-import 'package:evento/profile.dart';
+import 'package:evento/home.dart';
 import 'package:evento/widgets/loaders/loading.dart';
 import 'package:evento/widgets/popups/success_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+/*
+*   This is the Category Selection page where user selects the categories and then is
+*   redirected to [home.dart]
+* */
 
 class SelectInterests extends StatefulWidget
 {
@@ -56,7 +61,7 @@ class _SelectInterestsState extends State<SelectInterests>
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Select your area of interests",
+                    "Select category",
                     style: TextStyle(
                       fontSize: 22,
                       letterSpacing: 1.0,
@@ -66,27 +71,29 @@ class _SelectInterestsState extends State<SelectInterests>
                   ),
                 ),
 
-                SizedBox(height: 50,),
-                
+                SizedBox(height: 15,),
+
                 Wrap(
                   spacing: 4,
-                  runSpacing: 4,
+                  runSpacing: 3,
                   children: <Widget>
                   [
-                    FilterChipWidget(chipName: "Consulting", bgColor: Colors.transparent, selectedColor: Colors.amberAccent, textColor: Colors.blue, selectedTextColor: Colors.white,),
-                    FilterChipWidget(chipName: "Product Management", bgColor: Colors.transparent, selectedColor: Colors.redAccent, textColor: Colors.blue, selectedTextColor: Colors.white,),
-                    FilterChipWidget(chipName: "Telecommunication", bgColor: Colors.transparent, selectedColor: Colors.deepOrangeAccent, textColor: Colors.blue, selectedTextColor: Colors.white,),
-                    FilterChipWidget(chipName: "Advisor", bgColor: Colors.transparent, selectedColor: Colors.greenAccent[700], textColor: Colors.blue, selectedTextColor: Colors.white,),
-                    FilterChipWidget(chipName: "Manufacturer", bgColor: Colors.transparent, selectedColor: Colors.pinkAccent, textColor: Colors.blue, selectedTextColor: Colors.white,),
-                    FilterChipWidget(chipName: "Retailer", bgColor: Colors.transparent, selectedColor: Colors.indigo, textColor: Colors.blue, selectedTextColor: Colors.white,),
-                    FilterChipWidget(chipName: "Distributor", bgColor: Colors.transparent, selectedColor: Colors.purple, textColor: Colors.blue, selectedTextColor: Colors.white,),
-                    FilterChipWidget(chipName: "Marketing Manager", bgColor: Colors.transparent, selectedColor: Colors.deepPurple, textColor: Colors.blue, selectedTextColor: Colors.white,),
-                    FilterChipWidget(chipName: "IT Development", bgColor: Colors.transparent, selectedColor: Colors.orange, textColor: Colors.blue, selectedTextColor: Colors.white,),
-
+                    FilterChipWidget(chipName: "Home & Office", bgColor: Colors.transparent, selectedColor: Colors.amberAccent, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Hospitality", bgColor: Colors.transparent, selectedColor: Colors.redAccent, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "IT & Technology", bgColor: Colors.transparent, selectedColor: Colors.deepOrangeAccent, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Industry Engineering", bgColor: Colors.transparent, selectedColor: Colors.greenAccent[700], textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Logistics & Transportation", bgColor: Colors.transparent, selectedColor: Colors.pinkAccent, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Medical & Pharma", bgColor: Colors.transparent, selectedColor: Colors.indigo, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Miscellaneous", bgColor: Colors.transparent, selectedColor: Colors.purple, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Packing & Packaging", bgColor: Colors.transparent, selectedColor: Colors.deepPurple, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Power & Energy", bgColor: Colors.transparent, selectedColor: Colors.orange, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Science & Research", bgColor: Colors.transparent, selectedColor: Colors.red, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Security & Defense", bgColor: Colors.transparent, selectedColor: Colors.amberAccent, textColor: Colors.blue, selectedTextColor: Colors.white,),
+                    FilterChipWidget(chipName: "Telecommunication", bgColor: Colors.transparent, selectedColor: Colors.pink, textColor: Colors.blue, selectedTextColor: Colors.white,),
                   ],
                 ),
 
-                SizedBox(height: 50,),
+                SizedBox(height: 15,),
 
                 IconButton(
                   onPressed: ()
@@ -122,7 +129,7 @@ class _SelectInterestsState extends State<SelectInterests>
                     Icons.navigate_next,
                     size: 45,
                   ),
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(1),
                   color: Colors.white,
                 )
               ],
@@ -166,7 +173,7 @@ class _SelectInterestsState extends State<SelectInterests>
       Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => ProfileScreen(name: widget.name, email: widget.email)));
+              builder: (context) => Home(id: widget.id,)));
     }
     else if(message["msg"].toString() == "fail")
     {
@@ -194,7 +201,7 @@ class _SelectInterestsState extends State<SelectInterests>
       Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => ProfileScreen(name: widget.name, email: widget.email)));
+              builder: (context) => Home(id: widget.id,)));
     }
     else
     {
@@ -414,7 +421,7 @@ class _ContinueWithoutInterestsState extends State<ContinueWithoutInterests>
       Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => ProfileScreen(name: widget.name, email: widget.email)));
+              builder: (context) => Home()));
     }
     else if(message["msg"].toString() == "fail")
     {
@@ -446,7 +453,7 @@ class _ContinueWithoutInterestsState extends State<ContinueWithoutInterests>
       Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => ProfileScreen(name: widget.name, email: widget.email)));
+              builder: (context) => Home()));
     }
     else
     {
