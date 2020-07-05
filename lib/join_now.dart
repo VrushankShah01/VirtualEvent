@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:evento/ConstantUrls.dart';
+import 'package:evento/resources/firebase_methods.dart';
 import 'package:evento/select_interests.dart';
 import 'package:evento/sign_in.dart';
 import 'package:evento/widgets/loaders/loading.dart';
@@ -636,6 +637,10 @@ class _JoinNowState extends State<JoinNow> {
     {
       Navigator.of(context).pop(Loader);
 
+      FirebaseMethods methods = FirebaseMethods();
+
+      methods.addDataToDb(_firstNameController.text.trim() + " " + _lastNameController.text.trim(), _emailController.text.trim(), message["id"].toString(), " ", " ").then((value) => print("Success FIrebase"));
+
       print("ID : " + message["id"].toString());
 
       setState(() {
@@ -677,6 +682,10 @@ class _JoinNowState extends State<JoinNow> {
     else if(message["msg"].toString() == "success")
     {
       Navigator.of(context).pop();
+
+      FirebaseMethods methods = FirebaseMethods();
+
+      methods.addDataToDb(_firstNameController.text.trim() + " " + _lastNameController.text.trim(), _emailController.text.trim(), message["id"].toString(), " ", " ").then((value) => print("Success FIrebase"));
 
       print("ID : " + message["id"].toString());
 

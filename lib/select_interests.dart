@@ -421,7 +421,10 @@ class _ContinueWithoutInterestsState extends State<ContinueWithoutInterests>
       Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => Home()));
+              builder: (context) => Home(
+                id: widget.id,
+                name: widget.name,
+              )));
     }
     else if(message["msg"].toString() == "fail")
     {
@@ -453,7 +456,10 @@ class _ContinueWithoutInterestsState extends State<ContinueWithoutInterests>
       Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => Home()));
+              builder: (context) => Home(
+                id: widget.id,
+                name: widget.name,
+              )));
     }
     else
     {

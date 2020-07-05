@@ -321,7 +321,10 @@ class _SignInState extends State<SignIn>
       Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => Home(id: message["id"].toString(),)));
+              builder: (context) => Home(
+                id: message["id"].toString(),
+                name: message["name"].toString(),
+              )));
     }
     else
     {

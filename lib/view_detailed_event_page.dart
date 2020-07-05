@@ -1,7 +1,10 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:evento/ConstantUrls.dart';
+import 'package:evento/chat_screen.dart';
 import 'package:evento/custom_icons/shake_hand_icons.dart';
+import 'package:evento/custom_route_transitions/slide_from_right.dart';
 import 'package:evento/home.dart';
+import 'package:evento/profile.dart';
 import 'package:evento/services/GetPeopleWithSameInterestData.dart';
 import 'package:evento/services/GetPeopleWithSameInterestModel.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,9 +13,9 @@ import 'package:flutter/material.dart';
 
 class ViewDetailedEventPage extends StatefulWidget
 {
-  final String tag, imagePath, title, date, location, description, time, uid;
+  final String tag, imagePath, title, date, location, description, time, uid, uName;
 
-  ViewDetailedEventPage({this.tag, this.imagePath, this.title, this.date, this.location, this.description, this.time, this.uid});
+  ViewDetailedEventPage({this.tag, this.imagePath, this.title, this.date, this.location, this.description, this.time, this.uid, this.uName});
 
   @override
   _ViewDetailedEventPageState createState() => _ViewDetailedEventPageState();
@@ -48,7 +51,14 @@ class _ViewDetailedEventPageState extends State<ViewDetailedEventPage>
       // 2 - Network
       EventNetwork(
         uid: widget.uid,
-      )
+        uName: widget.uName,
+      ),
+
+      // 3 - Sponsors
+      EventSponsors(),
+
+      // 4 - User Profile
+      UserProfile(),
     ];
   }
 
@@ -105,7 +115,6 @@ class _ViewDetailedEventPageState extends State<ViewDetailedEventPage>
             title: "Profile",
           )
         ],
-        initialActiveIndex: 0,
         backgroundColor: Colors.blue[800],
         activeColor: ConstantUrls.yellowColor,
         top: 0,
@@ -373,9 +382,10 @@ class _EventScheduleState extends State<EventSchedule>
 // Event Network
 class EventNetwork extends StatefulWidget
 {
-  final String uid;
+  final String uid; // Senders Id
+  final String uName;
 
-  EventNetwork({this.uid});
+  EventNetwork({this.uid, this.uName});
 
   @override
   _EventNetworkState createState() => _EventNetworkState();
@@ -431,10 +441,13 @@ class _EventNetworkState extends State<EventNetwork>
                     return Padding(
                       padding: EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 8),
                       child: PeopleWithSameInterestWidget(
-                        name: peopleList[index].name,
+                        name: peopleList[index].name.toString(),
                         email: peopleList[index].email,
                         phone: peopleList[index].phone.toString(),
                         interest: peopleList[index].interests.toString(),
+                        receiversId: peopleList[index].userid.toString(),
+                        sendersId: widget.uid.toString(),// Receiver's Id
+                        sendersName: widget.uName.toString(),
                       ),
                     );
                   },
@@ -459,9 +472,9 @@ class _EventNetworkState extends State<EventNetwork>
 
 class PeopleWithSameInterestWidget extends StatefulWidget
 {
-  final String name, email, interest, phone;
+  final String name, email, interest, phone, sendersId, receiversId, sendersName;
 
-  PeopleWithSameInterestWidget({this.phone, this.name, this.email, this.interest});
+  PeopleWithSameInterestWidget({this.phone, this.name, this.email, this.interest, this.sendersId, this.receiversId, this.sendersName});
 
   @override
   _PeopleWithSameInterestWidgetState createState() => _PeopleWithSameInterestWidgetState();
@@ -488,7 +501,7 @@ class _PeopleWithSameInterestWidgetState extends State<PeopleWithSameInterestWid
               Text(
                 widget.name,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.7,
                 ),
@@ -510,7 +523,7 @@ class _PeopleWithSameInterestWidgetState extends State<PeopleWithSameInterestWid
               ),
 
               Text(
-                "Common Interests : " + widget.interest,
+                "Mutual Interests : " + widget.interest,
                 style: TextStyle(
                   letterSpacing: 0.7
                 ),
@@ -521,7 +534,19 @@ class _PeopleWithSameInterestWidgetState extends State<PeopleWithSameInterestWid
                 children: <Widget>[
                   RaisedButton(
                     onPressed: ()
-                    {},
+                    {
+                      Navigator.push(
+                          context,
+                          new SlideFromRightPageRoute(
+                            widget: ChatScreen(
+                              receiverName: widget.name,
+                              receiverId: widget.receiversId.toString(),
+                              senderId: widget.sendersId.toString(),
+                              senderName: widget.sendersName.toString(),
+                            ),
+                          )
+                      );
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                       side: BorderSide(
@@ -547,6 +572,39 @@ class _PeopleWithSameInterestWidgetState extends State<PeopleWithSameInterestWid
     );
   }
 }
+
+// Event Sponsors
+class EventSponsors extends StatefulWidget
+{
+  @override
+  _EventSponsorsState createState() => _EventSponsorsState();
+}
+
+class _EventSponsorsState extends State<EventSponsors>
+{
+  @override
+  Widget build(BuildContext context)
+  {
+    return Container();
+  }
+}
+
+// User Profile
+class UserProfile extends StatefulWidget
+{
+  @override
+  _UserProfileState createState() => _UserProfileState();
+}
+
+class _UserProfileState extends State<UserProfile>
+{
+  @override
+  Widget build(BuildContext context)
+  {
+    return Container();
+  }
+}
+
 
 
 

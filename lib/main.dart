@@ -1,15 +1,22 @@
 import 'package:evento/first_splash.dart';
 import 'package:evento/getting_started.dart';
+import 'package:evento/video_call_screens/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linkedin_login/linkedin_login.dart';
+import 'package:provider/provider.dart';
 import 'profile.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(
+    MultiProvider(
+      providers:[
+      ChangeNotifierProvider(create: (_) => UserProvider()),],
+      child: MaterialApp(
   debugShowCheckedModeBanner: false,
   home: GettingStarted(),
-));
+),
+    ));
 
 //class Home extends StatefulWidget
 //{

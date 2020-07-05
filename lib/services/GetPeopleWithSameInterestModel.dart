@@ -2,12 +2,13 @@ import 'dart:convert';
 
 class GetPeopleWithSameInterestModel
 {
+  String userid;
   String name;
   String interests;
   String email;
   String phone;
 
-  GetPeopleWithSameInterestModel({this.email, this.name, this.interests, this.phone});
+  GetPeopleWithSameInterestModel({this.email, this.name, this.interests, this.phone, this.userid});
 
   factory GetPeopleWithSameInterestModel.fromJson(Map<String, dynamic> json)
   {
@@ -16,6 +17,7 @@ class GetPeopleWithSameInterestModel
       interests: json["interest"].toString(),
       name: json["name"] as String,
       phone: json["phone"].toString(),
+      userid: json["userid"].toString() // Receivers Id
     );
   }
 }

@@ -1,17 +1,23 @@
 import 'dart:convert';
 import 'package:evento/ConstantUrls.dart';
 import 'package:evento/custom_route_transitions/fade_page_route.dart';
+import 'package:evento/model/user.dart';
+import 'package:evento/resources/firebase_methods.dart';
 import 'package:evento/services/GetInterests.dart';
+import 'package:evento/video_call_screens/pickup/pickup_layout.dart';
+import 'package:evento/video_call_screens/user_provider.dart';
 import 'package:evento/view_event_details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Home extends StatefulWidget
 {
-  final String id;
+  final String id, name;
 
-  Home({this.id});
+  Home({this.id, this.name});
 
   @override
   _HomeState createState() => _HomeState();
@@ -59,12 +65,25 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin
 
   static bool loading;
 
+  UserProvider userProvider;
+  FirebaseMethods methods = FirebaseMethods();
+
   @override
   void initState()
   {
     super.initState();
 
     loading = true;
+
+
+
+    SchedulerBinding.instance.addPostFrameCallback((_)
+    {
+      userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      userProvider.refreshUser(widget.id.toString());
+
+    });
 
 //    _controller = AnimationController(
 //      vsync: this,
@@ -146,20 +165,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context)
   {
-    return Scaffold(
-      backgroundColor: Colors.blue[800],
-      appBar: AppBar(
-        backgroundColor: Colors.blue[800],
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.location_on,
-            color: Colors.white,
-            size: 35,
-          ),
-        ),
-        actions: <Widget>
-        [
+    return PickupLayout(
+      scaffold: Scaffold(
+              backgroundColor: Colors.blue[800],
+              appBar: AppBar(
+                backgroundColor: Colors.blue[800],
+                leading: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.location_on,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                ),
+                actions: <Widget>
+                [
 //          Padding(
 //            padding: const EdgeInsets.all(8.0),
 //            child: Icon(
@@ -169,182 +189,184 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin
 //            ),
 //          ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 22,
-              backgroundColor: Colors.blue[800],
-              child: Icon(
-                Icons.person,
-                color: Colors.white,
-                size: 35,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      radius: 22,
+                      backgroundColor: Colors.blue[800],
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ),
-          )
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>
-            [
-              // Search Event Textbox
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              body: SafeArea(
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 3),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
-                     ),
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    ),
-
-                  // Search Event Textbox
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                      ),
-                      hintText: "Search for an Event",
-                      hintStyle: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    onChanged: (text)
-                    {
-                      print(text);
-                    },
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 10,),
-
-              // Interests Selected
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: loading ?
-                      Shimmer.fromColors(
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>
+                    [
+                      // Search Event Textbox
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>
-                            [
-                              FilterChip(
-                                label: Text(
-                                  "Industry Engineering",
-                                  style: TextStyle(
-                                      color: Colors.transparent
-                                  ),
-                                ),
+                          padding: EdgeInsets.symmetric(vertical: 3),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                             ),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            ),
+
+                          // Search Event Textbox
+                          child: TextField(
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.grey,
                               ),
-
-                              SizedBox(width: 10,),
-
-                              FilterChip(
-                                label: Text(
-                                  "Logistics & Transportation",
-                                  style: TextStyle(
-                                      color: Colors.transparent
-                                  ),
-                                ),
+                              hintText: "Search for an Event",
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
                               ),
-
-                              SizedBox(width: 10,),
-
-                              FilterChip(
-                                label: Text(
-                                  "Telecommunication",
-                                  style: TextStyle(
-                                      color: Colors.transparent
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(width: 10,),
-
-                              FilterChip(
-                                label: Text(
-                                    "Hospitality",
-                                  style: TextStyle(
-                                    color: Colors.transparent
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(width: 10,),
-
-                              FilterChip(
-                                label: Text(
-                                  "Home & Office",
-                                  style: TextStyle(
-                                      color: Colors.transparent
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(width: 10,),
-
-                              FilterChip(
-                                label: Text(
-                                  "IT & Technology",
-                                  style: TextStyle(
-                                      color: Colors.transparent
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
+                            onChanged: (text)
+                            {
+                              print(text);
+                            },
                           ),
                         ),
-                        baseColor: Colors.grey[200],
-                        highlightColor: Colors.grey[300],
-                        direction: ShimmerDirection.ltr,
-                        loop: 4,
-                      )
-                      :
-                  Container(
-                    child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: interestChips,
                       ),
-                    ),
+
+                      SizedBox(height: 10,),
+
+                      // Interests Selected
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: loading ?
+                              Shimmer.fromColors(
+                                child: Container(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>
+                                    [
+                                      FilterChip(
+                                        label: Text(
+                                          "Industry Engineering",
+                                          style: TextStyle(
+                                              color: Colors.transparent
+                                          ),
+                                        ),
+                                      ),
+
+                                      SizedBox(width: 10,),
+
+                                      FilterChip(
+                                        label: Text(
+                                          "Logistics & Transportation",
+                                          style: TextStyle(
+                                              color: Colors.transparent
+                                          ),
+                                        ),
+                                      ),
+
+                                      SizedBox(width: 10,),
+
+                                      FilterChip(
+                                        label: Text(
+                                          "Telecommunication",
+                                          style: TextStyle(
+                                              color: Colors.transparent
+                                          ),
+                                        ),
+                                      ),
+
+                                      SizedBox(width: 10,),
+
+                                      FilterChip(
+                                        label: Text(
+                                            "Hospitality",
+                                          style: TextStyle(
+                                            color: Colors.transparent
+                                          ),
+                                        ),
+                                      ),
+
+                                      SizedBox(width: 10,),
+
+                                      FilterChip(
+                                        label: Text(
+                                          "Home & Office",
+                                          style: TextStyle(
+                                              color: Colors.transparent
+                                          ),
+                                        ),
+                                      ),
+
+                                      SizedBox(width: 10,),
+
+                                      FilterChip(
+                                        label: Text(
+                                          "IT & Technology",
+                                          style: TextStyle(
+                                              color: Colors.transparent
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                baseColor: Colors.grey[200],
+                                highlightColor: Colors.grey[300],
+                                direction: ShimmerDirection.ltr,
+                                loop: 4,
+                              )
+                              :
+                          Container(
+                            child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: interestChips,
+                              ),
+                            ),
+                          ),
+                      ),
+
+                      SizedBox(height: 10,),
+
+                      // Event Card
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: 1,
+                          itemBuilder: (BuildContext context, int index)
+                          {
+                            return makeCard(
+                              imagePath: imagePaths[index],
+                              eventName: eventName[index],
+                              eventDate: date[index],
+                              tag: index.toString(),
+                              location: location[index],
+                              description: description[index],
+                              time: time[index],
+                              uid: widget.id,
+                              uName: widget.name,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-              ),
-
-              SizedBox(height: 10,),
-
-              // Event Card
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (BuildContext context, int index)
-                  {
-                    return makeCard(
-                      imagePath: imagePaths[index],
-                      eventName: eventName[index],
-                      eventDate: date[index],
-                      tag: index.toString(),
-                      location: location[index],
-                      description: description[index],
-                      time: time[index],
-                      uid: widget.id,
-                    );
-                  },
                 ),
               ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -353,9 +375,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin
 // Events Card
 class makeCard extends StatelessWidget
 {
-  final String imagePath, eventName, eventDate, tag, location, description, time, uid;
+  final String imagePath, eventName, eventDate, tag, location, description, time, uid, uName;
 
-  makeCard({this.imagePath, this.eventName, this.eventDate, this.tag, this.location, this.description, this.time, this.uid});
+  makeCard({this.imagePath, this.eventName, this.eventDate, this.tag, this.location, this.description, this.time, this.uid, this.uName});
 
   @override
   Widget build(BuildContext context)
@@ -380,14 +402,15 @@ class makeCard extends StatelessWidget
 
                       Navigator.of(context).push(FadePageRoute
                         (widget: ViewEventDetails(
-                                  tag: tag,
-                                  imagePath: imagePath,
-                                  title: eventName,
-                                  date: eventDate,
-                                  location: location,
-                                  description: description,
-                                  time: time,
-                                  uid: uid,
+                                  tag: tag.toString(),
+                                  imagePath: imagePath.toString(),
+                                  title: eventName.toString(),
+                                  date: eventDate.toString(),
+                                  location: location.toString(),
+                                  description: description.toString(),
+                                  time: time.toString(),
+                                  uid: uid.toString(),
+                                  userName: uName.toString(),
                       )));
                     },
                     child: Container(

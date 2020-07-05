@@ -22,6 +22,6 @@ class SlideFromRightPageRoute extends PageRouteBuilder
           ),
         );
       },
-      transitionDuration: Duration(milliseconds: 600)
+      transitionDuration: Duration(milliseconds: 300)
   );
 }

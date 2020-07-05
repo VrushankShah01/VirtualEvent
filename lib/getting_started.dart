@@ -2,12 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:evento/ConstantUrls.dart';
 import 'package:evento/home.dart';
+import 'package:evento/resources/firebase_methods.dart';
+import 'package:evento/resources/firebase_repository.dart';
 import 'package:evento/select_interests.dart';
 import 'package:evento/sign_in.dart';
+import 'package:evento/video_call_screens/user_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:evento/join_now.dart';
 import 'package:flutter/material.dart';
 import 'package:linkedin_login/linkedin_login.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 /*
@@ -23,7 +28,8 @@ class GettingStarted extends StatefulWidget {
   _GettingStartedState createState() => _GettingStartedState();
 }
 
-class _GettingStartedState extends State<GettingStarted> {
+class _GettingStartedState extends State<GettingStarted>
+{
   List<String> intro = ["Candido", "Profile", "Connect", "Match"];
 
   var whiteColor = Colors.white;
@@ -53,7 +59,8 @@ class _GettingStartedState extends State<GettingStarted> {
   bool logoutUser = false;
 
   @override
-  void initState() {
+  void initState()
+  {
     _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
 //      print("CURRENT PAGE : " + currentPage.toString());
 
@@ -78,7 +85,8 @@ class _GettingStartedState extends State<GettingStarted> {
   }
 
   @override
-  void dispose() {
+  void dispose()
+  {
     _timer.cancel();
     pageController.dispose();
     super.dispose();
@@ -89,7 +97,8 @@ class _GettingStartedState extends State<GettingStarted> {
   final String clientSecret = 'vANp2b2xTeY43sVI';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Scaffold(
       backgroundColor: currentPage == 0
           ? Color.fromRGBO(250, 250, 250, 1)
@@ -438,7 +447,8 @@ class _GettingStartedState extends State<GettingStarted> {
                         // Sign in with LinkedIn
                         Container(
                           child: RaisedButton(
-                            onPressed: () {
+                            onPressed: ()
+                            {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -598,16 +608,29 @@ class _GettingStartedState extends State<GettingStarted> {
 
     if(message["msg"].toString() == "yes")
     {
+      FirebaseMethods methods = FirebaseMethods();
+
+      methods.addDataToDb(fname.trim() + " " + lname.trim(), email.trim(), message["id"].toString(), " ", " ").then((value) => print("Success FIrebase"));
+
       Navigator.push(
           context,
           new MaterialPageRoute(
               builder: (context) =>
-                  Home(id: message["id"].toString(),
+                  Home(
+                    id: message["id"].toString(),
+                    name: fname.trim() + " " + lname.trim(),
                   )));
+
+      print("FNAME : " + fname + " LNAM : " + lname);
+
     }
 
     else if(message["msg"].toString() == "success")
     {
+      FirebaseMethods methods = FirebaseMethods();
+
+      methods.addDataToDb(fname.trim() + " " + lname.trim(), email.trim(), message["id"].toString(), " ", " ").then((value) => print("Success FIrebase"));
+
       Navigator.push(
           context,
           new MaterialPageRoute(

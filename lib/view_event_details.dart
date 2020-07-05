@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class ViewEventDetails extends StatefulWidget
 {
-  final String tag, imagePath, title, date, location, description, time, uid;
+  final String tag, imagePath, title, date, location, description, time, uid, userName;
 
-  ViewEventDetails({this.tag, this.imagePath, this.title, this.date, this.location, this.description, this.time, this.uid});
+  ViewEventDetails({this.tag, this.imagePath, this.title, this.date, this.location, this.description, this.time, this.uid, this.userName});
 
   @override
   _ViewEventDetailsState createState() => _ViewEventDetailsState();
@@ -16,7 +16,10 @@ class ViewEventDetails extends StatefulWidget
 class _ViewEventDetailsState extends State<ViewEventDetails>
 {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    print("SENDER NAME " + widget.userName);
+
     return Scaffold(
       backgroundColor: Colors.blue[800],
       body: SafeArea(
@@ -230,6 +233,7 @@ class _ViewEventDetailsState extends State<ViewEventDetails>
                             description: widget.description,
                             time: widget.time,
                             uid: widget.uid,
+                            uName: widget.userName,
                           )));
                         },
                         padding: EdgeInsets.all(9),
