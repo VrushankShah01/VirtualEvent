@@ -511,6 +511,10 @@ class _GettingStartedState extends State<GettingStarted>
 //                                                          .displayImage);
 
                                             },
+                                            catchError: ()
+                                            {
+                                              Navigator.of(context).pop();
+                                            },
                                           )));
                             },
                             padding: EdgeInsets.all(10.0),

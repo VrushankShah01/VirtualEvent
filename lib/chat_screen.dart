@@ -239,7 +239,7 @@ class _ChatScreenState extends State<ChatScreen>
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        margin: EdgeInsets.only(top: 12),
+        margin: EdgeInsets.only(top: 5),
         constraints: BoxConstraints(
             maxWidth: MediaQuery
                 .of(context)
@@ -281,7 +281,7 @@ class _ChatScreenState extends State<ChatScreen>
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.only(top: 12),
+        margin: EdgeInsets.only(top: 5),
         constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.65
         ),
@@ -337,6 +337,9 @@ class _ChatScreenState extends State<ChatScreen>
                 TextField(
                 controller: _textEditingController,
                 focusNode: textFieldFocus,
+                keyboardType: TextInputType.multiline,
+                maxLines: 8,
+                minLines: 1,
                 onTap: () => hideEmojiContainer(),
                 style: TextStyle(
                   color: Colors.black,
@@ -359,7 +362,7 @@ class _ChatScreenState extends State<ChatScreen>
                     ),
                     borderSide: BorderSide.none
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding: EdgeInsets.only(top: 8, bottom: 8, right: 30, left: 15),
                   filled: true,
                   fillColor: Colors.grey[200],
                 ),

@@ -46,4 +46,10 @@ class ConstantUrls
      // GET PEOPLE WITH SAME INTERESTS
     static const String GetPeopleWithSameInterestsUrl = ROOT + "/Matchmaking/get_matches.php";
 
+  ////////////////////////////////////////////////////////////////////////////////
+
+  // GET USER DETAILS
+
+     // GET USER DETAILS FROM DB
+     static const String GetUserDetailsUrl = ROOT + "/User/get_user_details.php";
 }
