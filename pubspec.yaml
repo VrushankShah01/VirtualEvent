@@ -103,6 +103,10 @@ flutter:
       fonts:
         - asset: fonts/Facebook.ttf
 
+    - family: LinkedIn
+      fonts:
+        - asset: fonts/LinkedIn.ttf
+
     - family: Browser
       fonts:
         - asset: fonts/Browser.ttf

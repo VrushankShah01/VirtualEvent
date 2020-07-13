@@ -1035,54 +1035,100 @@ class _EventNetworkState extends State<EventNetwork>
   @override
   Widget build(BuildContext context)
   {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>
-      [
-        Expanded(
-          child: FutureBuilder<List>(
-            future: GetPeopleWithSameInterestData.getPeopleWithSameInterestData(id: widget.uid),
-            builder: (context, ss)
-            {
-              if(ss.hasError)
-              {
-                print("ERROR :  " + ss.error.toString());
-              }
-              if(ss.hasData)
-              {
-                return ListView.builder(
-                  itemCount: peopleList.length,
-                  itemBuilder: (BuildContext context, int index)
-                  {
-                    return Padding(
-                      padding: EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 8),
-                      child: PeopleWithSameInterestWidget(
-                        name: peopleList[index].name.toString(),
-                        email: peopleList[index].email,
-                        phone: peopleList[index].phone.toString(),
-                        interest: peopleList[index].interests.toString(),
-                        receiversId: peopleList[index].userid.toString(),
-                        sendersId: widget.uid.toString(),// Receiver's Id
-                        sendersName: widget.uName.toString(),
-                      ),
-                    );
-                  },
-                );
-              }
-              else
-              {
-                return Center(
-                  child: SpinKitWanderingCubes(
-                    color: Colors.white,
-                    size: 45,
+    return DefaultTabController(
+      length: 3,
+      initialIndex: 0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>
+        [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:8.0),
+            child: TabBar(
+              indicatorPadding: EdgeInsets.all(5),
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                  letterSpacing: 1.0
+              ),
+              indicatorSize: TabBarIndicatorSize.label,
+              isScrollable: true,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.white,
+              indicator: BubbleTabIndicator(
+                indicatorColor: ConstantUrls.yellowColor,
+                indicatorRadius: 8,
+                padding: EdgeInsets.all(8),
+                tabBarIndicatorSize: TabBarIndicatorSize.label,
+              ),
+              tabs: <Widget>
+              [
+                Tab(
+                  child: Text(
+                    "Matches",
                   ),
-                );
-              }
-            },
+                ),
+
+                Tab(
+                  child: Text(
+                      "Newest"
+                  ),
+                ),
+
+                Tab(
+                  child: Text(
+                      "Bookmarked"
+                  ),
+                ),
+              ],
+            ),
           ),
-        )
-      ],
+
+          Expanded(
+            child: FutureBuilder<List>(
+              future: GetPeopleWithSameInterestData.getPeopleWithSameInterestData(id: widget.uid),
+              builder: (context, ss)
+              {
+                if(ss.hasError)
+                {
+                  print("ERROR :  " + ss.error.toString());
+                }
+                if(ss.hasData)
+                {
+                  return ListView.builder(
+                    itemCount: peopleList.length,
+                    itemBuilder: (BuildContext context, int index)
+                    {
+                      return Padding(
+                        padding: EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 8),
+                        child: PeopleWithSameInterestWidget(
+                          name: peopleList[index].name.toString(),
+                          email: peopleList[index].email,
+                          phone: peopleList[index].phone.toString(),
+                          interest: peopleList[index].interests.toString(),
+                          receiversId: peopleList[index].userid.toString(),
+                          sendersId: widget.uid.toString(),// Receiver's Id
+                          sendersName: widget.uName.toString(),
+                        ),
+                      );
+                    },
+                  );
+                }
+                else
+                {
+                  return Center(
+                    child: SpinKitWanderingCubes(
+                      color: Colors.white,
+                      size: 45,
+                    ),
+                  );
+                }
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -1115,73 +1161,134 @@ class _PeopleWithSameInterestWidgetState extends State<PeopleWithSameInterestWid
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>
             [
-              Text(
-                widget.name,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.7,
-                ),
-              ),
-
-              Text(
-                widget.email,
-                style: TextStyle(
-                    color: Colors.lightBlue,
-                    letterSpacing: 0.7
-                ),
-              ),
-
-              Text(
-                widget.phone,
-                style: TextStyle(
-                    letterSpacing: 0.7
-                ),
-              ),
-
-              Text(
-                "Mutual Interests : " + widget.interest,
-                style: TextStyle(
-                    letterSpacing: 0.7
-                ),
-              ),
-
               Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  RaisedButton(
-                    onPressed: ()
-                    {
-                      Navigator.push(
-                          context,
-                          new SlideFromRightPageRoute(
-                            widget: ChatScreen(
-                              receiverName: widget.name,
-                              receiverId: widget.receiversId.toString(),
-                              senderId: widget.sendersId.toString(),
-                              senderName: widget.sendersName.toString(),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>
+                [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>
+                      [
+                        Flexible(
+                          child: CircleAvatar(
+                            radius: 28,
+                            child: Icon(
+                              Icons.person
                             ),
-                          )
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        side: BorderSide(
-                          color: Colors.green,
-                        )
+                          ),
+                        ),
+                      ],
                     ),
-                    child: Text(
-                      "Connect",
-                      style: TextStyle(
-                          letterSpacing: 0.7,
-                          color: Colors.white
+                  ),
+
+                  SizedBox(width: 25,),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>
+                    [
+                      Text(
+                        widget.name,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5,
+                            fontFamily: "Gotham"
+                        ),
                       ),
-                    ),
-                    padding: EdgeInsets.all(6),
-                    color: Colors.green,
+
+                      SizedBox(
+                        height: 5,
+                      ),
+
+                      Text(
+                        widget.email,
+                        style: TextStyle(
+                            color: Colors.lightBlue,
+                            letterSpacing: 0,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Gotham"
+                        ),
+                      ),
+
+                      SizedBox(height: 20,),
+
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: ()
+                            {
+                              Navigator.push(
+                                  context,
+                                  new SlideFromRightPageRoute(
+                                    widget: ChatScreen(
+                                      receiverName: widget.name,
+                                      receiverId: widget.receiversId.toString(),
+                                      senderId: widget.sendersId.toString(),
+                                      senderName: widget.sendersName.toString(),
+                                    ),
+                                  )
+                              );
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                side: BorderSide(
+                                  color: Colors.green,
+                                )
+                            ),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  "Suggest Meeting",
+                                  style: TextStyle(
+                                      letterSpacing: 0,
+                                      color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Gotham",
+                                    fontSize: 13
+                                  ),
+                                ),
+                              ),
+                            ),
+                            padding: EdgeInsets.all(5),
+                            color: Colors.green,
+                          ),
+
+                          IconButton(
+                            icon: Icon(
+                              Icons.star_border
+                            ),
+                            onPressed: (){},
+                          )
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
+
+
+
+
+//              Text(
+//                widget.phone,
+//                style: TextStyle(
+//                    letterSpacing: 0.7
+//                ),
+//              ),
+
+//              Text(
+//                "Mutual Interests : " + widget.interest,
+//                style: TextStyle(
+//                    letterSpacing: 0.7
+//                ),
+//              ),
             ],
           ),
         ),
@@ -1203,7 +1310,7 @@ class _EventSponsorsState extends State<EventSponsors>
   Widget build(BuildContext context)
   {
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>
@@ -1219,148 +1326,153 @@ class _EventSponsorsState extends State<EventSponsors>
               );
             },
             child: Card(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>
-                [
-                  Hero(
-                    tag: "companyimage",
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        "assets/actual.png",
-                        fit: BoxFit.cover,
-                        height: 150,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>
+                  [
+                    Hero(
+                      tag: "companyimage",
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          "assets/actual.png",
+                          fit: BoxFit.cover,
+                          height: 150,
+                        ),
                       ),
                     ),
-                  ),
 
-                  SizedBox(
-                    height: 5,
-                  ),
-
-                  Divider(
-                    color: Colors.grey[400],
-                    indent: 8,
-                    endIndent: 8,
-                  ),
-
-                  SizedBox(
-                    height: 5,
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                        "TheCandido",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: "Playfair",
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
-                        )
+                    SizedBox(
+                      height: 5,
                     ),
-                  ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 3, top: 3),
-                    child: Text(
-                        "Create your virtual event with us!",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontFamily: "Gotham",
-                          fontWeight: FontWeight.bold,
-                        )
+                    Divider(
+                      color: Colors.grey[400],
+                      indent: 8,
+                      endIndent: 8,
                     ),
-                  ),
 
-                  SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>
-                      [
-                        Expanded(
-                          child: Row(
-                            children: <Widget>
-                            [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 3, bottom: 3),
-                                child: CircleAvatar(
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 20,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                          "TheCandido",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontFamily: "Playfair",
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          )
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 3, top: 3),
+                      child: Text(
+                          "Create your virtual event with us!",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                            fontFamily: "Gotham",
+                            fontWeight: FontWeight.bold,
+                          )
+                      ),
+                    ),
+
+                    SizedBox(height: 5,),
+
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>
+                        [
+                          Expanded(
+                            child: Row(
+                              children: <Widget>
+                              [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, top: 3, bottom: 3),
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
-                              ),
 
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 3, bottom: 3),
-                                child: CircleAvatar(
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 20,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, top: 3, bottom: 3),
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
-                              ),
 
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 3, bottom: 3),
-                                child: CircleAvatar(
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 20,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, top: 3, bottom: 3),
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
-                              ),
 
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0, top: 3, bottom: 3),
-                                child: Text(
-                                  "+ 5 more",
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0, top: 3, bottom: 3),
+                                  child: Text(
+                                    "+ 5 more",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  )
                                 )
-                              )
-                            ],
-                          ),
-                        ),
-
-
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.navigate_next,
-                                size: 30,
-                                color: Colors.black,
-                              ),
-                              onPressed: ()
-                              {
-                                Navigator.push(context, FadePageRoute(
-                                  widget: SponsorsDetails(
-                                    tag: "companyimage",
-                                    name: "TheCandido",
-                                  ),
-                                ),
-                                );
-                              },
+                              ],
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
 
-                ],
+
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.navigate_next,
+                                  size: 30,
+                                  color: Colors.black,
+                                ),
+                                onPressed: ()
+                                {
+                                  Navigator.push(context, FadePageRoute(
+                                    widget: SponsorsDetails(
+                                      tag: "companyimage",
+                                      name: "TheCandido",
+                                    ),
+                                  ),
+                                  );
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           )
@@ -1445,35 +1557,35 @@ class _UserProfileState extends State<UserProfile>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>
         [
-          Align(
-            alignment: Alignment.center,
-            child: InkWell(
-              onTap: (){},
-              radius: 60,
-              borderRadius: BorderRadius.circular(60),
-              child: CircleAvatar(
-                radius: 55,
-                backgroundColor: Colors.white,
-                child: Icon(
-                  Icons.person_outline,
-                  size: 75,
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 20,),
-
           Expanded(
             child: Theme(
               data: ThemeData(
-                highlightColor: Colors.white,
+                highlightColor: Colors.white70,
               ),
               child: Scrollbar(
                 child: ListView(
                   physics: BouncingScrollPhysics(),
                   children: <Widget>
                   [
+                    Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: (){},
+                        radius: 60,
+                        borderRadius: BorderRadius.circular(60),
+                        child: CircleAvatar(
+                          radius: 55,
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.person_outline,
+                            size: 75,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 20,),
+
                     // Name, Email & Phone
                     Card(
                       child: Padding(

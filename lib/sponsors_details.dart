@@ -1,5 +1,6 @@
 import 'package:evento/custom_icons/browser_icons.dart';
 import 'package:evento/custom_icons/facebook_icons.dart';
+import 'package:evento/custom_icons/linked_in_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -76,7 +77,7 @@ class _SponsorsDetailsState extends State<SponsorsDetails>
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 22,
-                                letterSpacing: 0.8,
+                                letterSpacing: 1,
                                 fontFamily: "Playfair",
                                 fontWeight: FontWeight.w600
                               )
@@ -112,8 +113,9 @@ class _SponsorsDetailsState extends State<SponsorsDetails>
                                       "Meet the people",
                                       style: TextStyle(
                                           color: Colors.black,
+                                          fontWeight: FontWeight.bold,
                                           fontSize: 15,
-                                          letterSpacing: 0.8,
+                                          letterSpacing: 0.5,
                                           fontFamily: "Gotham",
                                       )
                                   ),
@@ -125,10 +127,10 @@ class _SponsorsDetailsState extends State<SponsorsDetails>
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8.0, top: 3, bottom: 3),
                                       child: CircleAvatar(
-                                        radius: 15,
+                                        radius: 16,
                                         child: Icon(
                                           Icons.person,
-                                          size: 20,
+                                          size: 18,
                                         ),
                                       ),
                                     ),
@@ -136,10 +138,10 @@ class _SponsorsDetailsState extends State<SponsorsDetails>
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8.0, top: 3, bottom: 3),
                                       child: CircleAvatar(
-                                        radius: 15,
+                                        radius: 16,
                                         child: Icon(
                                           Icons.person,
-                                          size: 20,
+                                          size: 18,
                                         ),
                                       ),
                                     ),
@@ -147,10 +149,10 @@ class _SponsorsDetailsState extends State<SponsorsDetails>
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8.0, top: 3, bottom: 3),
                                       child: CircleAvatar(
-                                        radius: 15,
+                                        radius: 16,
                                         child: Icon(
                                           Icons.person,
-                                          size: 20,
+                                          size: 18,
                                         ),
                                       ),
                                     ),
@@ -200,6 +202,7 @@ class _SponsorsDetailsState extends State<SponsorsDetails>
                               letterSpacing: 0,
                               fontSize: 15,
                               height: 1.5,
+                              fontWeight: FontWeight.w500,
                               color: Colors.black,
                               fontFamily: "Gotham",
                             ),
@@ -207,18 +210,19 @@ class _SponsorsDetailsState extends State<SponsorsDetails>
                         ),
 
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>
                             [
-                              IconButton(
-                                icon: Icon(
-                                  Facebook.facebook_squared,
-                                  color: Colors.blue[700],
-                                  size: 25,
-                                ),
-                                onPressed: () async
+                              // Facebook
+                              InkWell(
+                                child: Icon(
+                                    Facebook.facebook_squared,
+                                    color: Colors.blue[700],
+                                    size: 25,
+                                  ),
+                                onTap: () async
                                 {
                                   String url = "https://www.facebook.com/TheCandidoIndia";
 
@@ -233,15 +237,18 @@ class _SponsorsDetailsState extends State<SponsorsDetails>
                                 },
                               ),
 
-                              IconButton(
-                                icon: Icon(
-                                  Browser.globe,
-                                  color: Colors.green,
+                              SizedBox(width: 10,),
+
+                              // LinkedIn
+                              InkWell(
+                                child: Icon(
+                                  LinkedIn.linkedin_squared,
+                                  color: Colors.blue,
                                   size: 25,
                                 ),
-                                onPressed: () async
+                                onTap: () async
                                 {
-                                  String url = "https://www.thecandido.com";
+                                  String url = "https://www.linkedin.com/company/thecandido/";
 
                                   if (await canLaunch(url))
                                   {
@@ -253,9 +260,66 @@ class _SponsorsDetailsState extends State<SponsorsDetails>
                                   }
                                 },
                               ),
+
+                              // Website
+//                              IconButton(
+//                                icon: Icon(
+//                                  Browser.globe,
+//                                  color: Colors.blue,
+//                                  size: 24,
+//                                ),
+//                                onPressed: () async
+//                                {
+//                                  String url = "https://www.thecandido.com";
+//
+//                                  if (await canLaunch(url))
+//                                  {
+//                                    await launch(url);
+//                                  }
+//                                  else
+//                                  {
+//                                    print("Error");
+//                                  }
+//                                },
+//                              ),
+
+                              Expanded(
+                                child: InkWell(
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      "https://thecandido.com",
+                                      style: TextStyle(
+                                        color: Colors.lightGreen,
+                                        fontSize: 14,
+                                        letterSpacing: 0.8,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "Gotham"
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () async
+                                  {
+                                    String url = "https://www.thecandido.com";
+
+                                    if (await canLaunch(url))
+                                    {
+                                      await launch(url);
+                                    }
+                                    else
+                                    {
+                                      print("Error");
+                                    }
+                                  },
+                                ),
+                              )
                             ],
                           ),
-                        )
+                        ),
+
+                        SizedBox(
+                          height: 20,
+                        ),
                       ],
                     ),
                   ),
